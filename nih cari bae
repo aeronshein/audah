@@ -1,0 +1,67 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Back to Friends Lyrics</title>
+<style>
+  body {
+    background: #111;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding-top: 50px;
+  }#lyrics { font-size: 1.5rem; line-height: 2.5rem; max-height: 300px; /* batas tinggi area */ overflow: hidden; margin: 0 auto; width: 80%; position: relative; }
+
+.line { opacity: 0; transition: opacity 0.2s, transform 0.4s; margin: 10px 0; }
+
+.active { opacity: 1; color: #00ffea; font-weight: bold; transform: scale(1.05); } </style>
+
+</head>
+<body><h1>Back to Friends</h1>
+<div id="lyrics"></div><script>
+const lyrics = [
+  { time: 83, text: "I was scared to take a breath," },
+  { time: 86, text: "didn't want you to move your head" },
+  { time: 90, text: "How can we go back to being friends" },
+  { time: 94, text: "When we just shared a bed? (Yeah)" },
+  { time: 99, text: "How can you look at me and pretend" },
+  { time: 105, text: "I'm someone you've never met?" }
+];
+
+const lyricsDiv = document.getElementById("lyrics");
+
+lyrics.forEach((item) => {
+  const span = document.createElement("div");
+  span.textContent = item.text;
+  span.classList.add("line");
+  span.setAttribute("data-time", item.time);
+  lyricsDiv.appendChild(span);
+});
+
+let start = Date.now();
+let currentIndex = 0;
+
+function updateLyrics() {
+  let currentTime = (Date.now() - start) / 1000 + 83;
+  const lines = document.querySelectorAll(".line");
+
+  if (currentIndex < lyrics.length && currentTime >= lyrics[currentIndex].time) {
+    // hapus highlight sebelumnya
+    lines.forEach(line => line.classList.remove("active"));
+
+    // highlight baris aktif
+    const activeLine = lines[currentIndex];
+    activeLine.classList.add("active");
+
+    // scroll agar baris aktif ke tengah
+    activeLine.scrollIntoView({ behavior: "smooth", block: "center" });
+
+    currentIndex++;
+  }
+
+  requestAnimationFrame(updateLyrics);
+}
+
+updateLyrics();
+</script></body>
+</html>
